@@ -15,7 +15,6 @@ class SecondFragment : Fragment() {
     private var backButton: Button? = null
     private var result: TextView? = null
     private var listener: SecondFragmentInterface? = null
-    private var randomNubber = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,6 +25,7 @@ class SecondFragment : Fragment() {
         super.onDetach()
         listener = null
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,19 +39,13 @@ class SecondFragment : Fragment() {
         result = view.findViewById(R.id.result)
         backButton = view.findViewById(R.id.back)
 
-        val min = arguments?.getInt(MIN_VALUE_KEY) ?: 0
-        val max = arguments?.getInt(MAX_VALUE_KEY) ?: 0
+        val randomNumber = arguments?.getInt(RANDOM_VALUE_KEY) ?: 0
 
-        randomNubber = generate(min, max)
-        result?.text = randomNubber.toString()
+        result?.text = randomNumber.toString()
 
         backButton?.setOnClickListener {
-            listener?.openFirstFragment(randomNubber)
+            listener?.openFirstFragment(randomNumber)
         }
-    }
-
-    private fun generate(min: Int, max: Int): Int {
-        return Random.nextInt(min, max)
     }
 
     interface SecondFragmentInterface {
@@ -61,17 +55,15 @@ class SecondFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(min: Int, max: Int): SecondFragment {
+        fun newInstance(randomNumber: Int): SecondFragment {
             val fragment = SecondFragment()
             val args = Bundle()
-            args.putInt(MIN_VALUE_KEY, min)
-            args.putInt(MAX_VALUE_KEY, max)
+            args.putInt(RANDOM_VALUE_KEY, randomNumber)
             fragment.arguments = args
             return fragment
         }
 
-        private const val MIN_VALUE_KEY = "MIN_VALUE"
-        private const val MAX_VALUE_KEY = "MAX_VALUE"
+        private const val RANDOM_VALUE_KEY = "RANDOM_VALUE_KEY"
     }
 
     override fun onDestroyView() {

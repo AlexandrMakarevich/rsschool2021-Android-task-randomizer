@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import kotlin.random.Random
 
 class FirstFragment : Fragment() {
 
@@ -63,8 +64,10 @@ class FirstFragment : Fragment() {
                 ).show()
                 else -> {
                     listener?.openSecondFragment(
-                        min?.text.toString().toInt(),
-                        max?.text.toString().toInt()
+                        generate(
+                            min?.text.toString().toInt(),
+                            max?.text.toString().toInt()
+                        )
                     )
                 }
             }
@@ -72,8 +75,12 @@ class FirstFragment : Fragment() {
         }
     }
 
+    private fun generate(min: Int, max: Int): Int {
+        return Random.nextInt(min, max)
+    }
+
     interface FirstFragmentInterface {
-        fun openSecondFragment(min: Int, max: Int)
+        fun openSecondFragment(randomNumber: Int)
     }
 
     companion object {

@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity implements FirstFragment.FirstFragmentInterface,
         SecondFragment.SecondFragmentInterface {
+    private Boolean isSecondFragmentOn;
+    private int m_randomNumber;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -18,17 +20,26 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.Fir
     }
 
     public void openFirstFragment(int previousNumber) {
+        isSecondFragmentOn = false;
         final Fragment firstFragment = FirstFragment.newInstance(previousNumber);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, firstFragment);
         transaction.commit();
     }
 
-    public void openSecondFragment(int min, int max) {
-        final Fragment secondFragment = SecondFragment.newInstance(min, max);
+    public void openSecondFragment(int randomNumber) {
+        isSecondFragmentOn = true;
+        m_randomNumber = randomNumber;
+        final Fragment secondFragment = SecondFragment.newInstance(randomNumber);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, secondFragment);
         transaction.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isSecondFragmentOn) {
+            openFirstFragment(m_randomNumber);
+        } else super.onBackPressed();
+    }
 }
