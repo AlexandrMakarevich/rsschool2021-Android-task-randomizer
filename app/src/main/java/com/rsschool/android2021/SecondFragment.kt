@@ -15,6 +15,7 @@ class SecondFragment : Fragment() {
     private var backButton: Button? = null
     private var result: TextView? = null
     private var listener: SecondFragmentInterface? = null
+    private var randomNubber = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,7 +42,7 @@ class SecondFragment : Fragment() {
         val min = arguments?.getInt(MIN_VALUE_KEY) ?: 0
         val max = arguments?.getInt(MAX_VALUE_KEY) ?: 0
 
-        val randomNubber = generate(min, max)
+        randomNubber = generate(min, max)
         result?.text = randomNubber.toString()
 
         backButton?.setOnClickListener {
@@ -78,4 +79,5 @@ class SecondFragment : Fragment() {
         backButton = null
         result = null
     }
+
 }

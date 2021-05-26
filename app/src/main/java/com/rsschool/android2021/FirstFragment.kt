@@ -49,13 +49,26 @@ class FirstFragment : Fragment() {
         previousResult?.text = "Previous result: ${result.toString()}"
 
         generateButton?.setOnClickListener {
-            if (min?.text.toString() == "" || max?.text.toString() == "") {
-                Toast.makeText(context, "Please, input data!!!", Toast.LENGTH_SHORT).show()
-            } else
-                listener?.openSecondFragment(
-                    min?.text.toString().toInt(),
-                    max?.text.toString().toInt()
-                )
+
+            when (true) {
+                (min?.text.toString() == "" || max?.text.toString() == "") -> Toast.makeText(
+                    context,
+                    "Please, input data!!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                (min?.text.toString().toInt() > max?.text.toString().toInt()) -> Toast.makeText(
+                    context,
+                    "MIN must be less than MAX!!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> {
+                    listener?.openSecondFragment(
+                        min?.text.toString().toInt(),
+                        max?.text.toString().toInt()
+                    )
+                }
+            }
+
         }
     }
 
